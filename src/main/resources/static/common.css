@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+}
+
+body {
+    height: 100%;
+}
+
+textarea {
+    font-family: 'Ubuntu Mono', monospace;
+    outline: none;
+    border: none;
+    background-color: #121212 !important;
+    color: white;
+    padding: 15px;
+    font-size: 18px;
+    resize: none;
+    height: 100vh;
+    white-space: pre;
+    tab-size: 4;
+}
+
+.default-section {
+    font-family: 'Ubuntu Mono', monospace;
+    background-color: #121212 !important;
+    color: white;
+    white-space: pre;
+    height: 100vh;
+    padding: 15px;
+    font-size: 18px;
+    overflow: scroll;
+}
+
+.avatar {
+    vertical-align: middle;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+}
+
+.code-view * {
+    font-family: 'Ubuntu Mono', monospace;
+    font-size: 18px;
+}
