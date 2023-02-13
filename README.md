@@ -1,8 +1,8 @@
 # sosi.lol
 
-Amazing paste service with beautiful name.
+Дивовижна паста з красивою назвою.
 
-Url: https://sosi.lol/
+Ciлка: https://sosi.lol/
 
 ![Screenshot](https://i.imgur.com/fpMcNLP.png "Screenshot")
 
@@ -30,7 +30,7 @@ Url: https://sosi.lol/
 
 ## Building
 
-To build you need simply run:
+Для створення вам потрібно просто запустити:
 
 ```gradle bootJar```
 
@@ -42,4 +42,4 @@ To build you need simply run:
 
 ## Bugs and feedback
 
-For bugs, questions and discussions please use the [GitHub Issues](https://github.com/fiwka/sosilol/issues).
+Для помилок, питань і обговорень використовуйте [GitHub Issues](https://github.com/fiwka/sosilol/issues).
