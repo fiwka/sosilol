@@ -36,8 +36,8 @@ To build you need simply run:
 
 ## TODO
 
-- Localization
-- Optimize saving pastes to profiles
+- Локалізація
+— Оптимізовано збереження вставок у профілі
 - ...
 
 ## Bugs and feedback
