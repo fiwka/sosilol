@@ -1,3 +1,7 @@
+@import ru.kdev.sosilol.data.Paste
+
+@param Paste paste
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,14 +27,15 @@
         <div class="nav-wrapper" style="background-color: #1e1e1e;">
             <a href="/" class="brand-logo" style="margin-left: 10px;">соси лол</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/v1/api-docs-ui">API</a></li>
                 <li><a href="https://vk.com/kostyan_konovalov">Автор</a></li>
                 <li><a href="/profile">Профиль</a></li>
             </ul>
         </div>
     </nav>
-    <div class="default-section code-view">{{ code }}</div>
+    <div class="default-section code-view">${paste.getCode()}</div>
     <script>
-        const codeview = document.querySelector(".code-view")
+        const codeview = document.querySelector(".code-view");
         codeview.innerHTML = hljs.highlightAuto(codeview.innerText).value
     </script>
 </body>

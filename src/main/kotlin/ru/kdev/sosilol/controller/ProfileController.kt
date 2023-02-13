@@ -10,7 +10,7 @@ import ru.kdev.sosilol.service.GithubService
 class ProfileController(private var githubService: GithubService) {
 
     @GetMapping("/profile")
-    fun profile(session: HttpSession, response: HttpServletResponse): String? {
+    suspend fun profile(session: HttpSession, response: HttpServletResponse): String? {
         val accountType = session.getAttribute("account_type")
 
         if (accountType == null) {

@@ -3,8 +3,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "3.0.0"
     id("io.spring.dependency-management") version "1.1.0"
-    kotlin("jvm") version "1.6.21"
-    kotlin("plugin.spring") version "1.6.21"
+    id("gg.jte.gradle") version "2.2.4"
+    kotlin("jvm") version "1.8.0"
+    kotlin("plugin.spring") version "1.8.0"
 }
 
 dependencyManagement {
@@ -30,16 +31,21 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.session:spring-session-core:3.0.0")
     implementation("org.springframework.session:spring-session-data-redis:3.0.0")
-    implementation("org.springframework.data:spring-data-redis:3.0.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+    implementation("org.hibernate.validator:hibernate-validator:8.0.0.Final")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("io.github.whilein:te4j:1.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.6.4")
+    implementation("org.reactivestreams:reactive-streams:1.0.4")
+    implementation("gg.jte:jte:2.2.4")
     implementation("org.json:json:20220320")
-    implementation("redis.clients:jedis:4.4.0-m2")
+    implementation("io.lettuce:lettuce-core:6.2.2.RELEASE")
+    implementation("org.postgresql:postgresql:42.5.3")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -52,7 +58,21 @@ tasks.withType<JavaCompile> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict", "-Xlambdas=indy")
-        jvmTarget = "18"
+        jvmTarget = "19"
+    }
+}
+
+jte {
+    precompile()
+}
+
+tasks.bootJar {
+    dependsOn(tasks.precompileJte)
+    with(bootInf) {
+        from(fileTree("jte-classes") {
+            include("**/*.class")
+        })
+        into("classes")
     }
 }
 

@@ -1,3 +1,7 @@
+@import ru.kdev.sosilol.service.GithubProfile
+
+@param GithubProfile profile
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -18,13 +22,29 @@
         <div class="nav-wrapper" style="background-color: #1e1e1e;">
             <a href="/" class="brand-logo" style="margin-left: 10px;">соси лол</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="/v1/api-docs-ui">API</a></li>
                 <li><a href="https://vk.com/kostyan_konovalov">Автор</a></li>
                 <li><a href="/profile">Профиль</a></li>
             </ul>
         </div>
     </nav>
     <section class="default-section" id="profile">
-        <header></header>
+        <header style="text-align: center; user-select: none;">
+            <img src="${profile.getAvatarUrl()}" alt="Avatar" class="avatar">
+            <h3>Профиль ${profile.getLogin()}</h3>
+        </header>
+        <div class="pastes" style="text-align: center; user-select: none;">
+            @if(profile.getPastes().isEmpty())
+            <h4 style="color: #676a6d">У вас нет сохранённых паст.</h4>
+            @else
+            <h4 style="color: #676a6d">Ваши пасты:</h4>
+            <div class="collection" style="outline: none !important; border: none !important;">
+                @for(var element : profile.getPastes())
+                <a href="/view/${element.getId()}" class="collection-item grey darken-3">${element.getId()}</a>
+                @endfor
+            </div>
+            @endif
+        </div>
     </section>
 </body>
 </html>

@@ -13,7 +13,7 @@ class SwaggerConfiguration {
     fun publicApi(): GroupedOpenApi =
         GroupedOpenApi.builder()
             .group("paste-public")
-            .pathsToMatch("/save")
+            .pathsToMatch("/save", "/raw/**")
             .build()
 
     @Bean

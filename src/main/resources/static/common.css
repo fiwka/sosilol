@@ -38,12 +38,35 @@ textarea {
 
 .avatar {
     vertical-align: middle;
-    width: 64px;
-    height: 64px;
+    width: 128px;
+    height: 128px;
     border-radius: 50%;
 }
 
 .code-view * {
     font-family: 'Ubuntu Mono', monospace;
     font-size: 18px;
+}
+
+.line-numbers {
+    width: 20px;
+    background: #1e1e1e !important;
+    padding-top: 15px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.line-numbers span {
+    counter-increment: linenumber;
+}
+
+.line-numbers span::before {
+    content: counter(linenumber);
+    display: block;
+    color: #7193bb;
+}
+
+.editor {
+    display: flex;
+    width: 100vw;
 }

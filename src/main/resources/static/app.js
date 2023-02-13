@@ -19,6 +19,17 @@ document.addEventListener('keydown', async e => {
     }
 })
 
+// const textarea = document.querySelector('textarea')
+// const lineNumbers = document.querySelector('.line-numbers')
+//
+// textarea.addEventListener('keyup', event => {
+//     const numberOfLines = event.target.value.split('\n').length
+//
+//     lineNumbers.innerHTML = Array(numberOfLines)
+//         .fill('<span></span>')
+//         .join('')
+// })
+
 async function save() {
     console.log('a')
     const textArea = document.querySelector('textarea')
@@ -32,6 +43,7 @@ async function save() {
     document.querySelector('#save-btn').remove()
     const div = document.createElement('div')
     div.classList.add("code-view")
+    div.classList.add("default-section")
     div.innerHTML = detected
     document.body.appendChild(div)
     const httpResult = await fetch("/save", { method: "POST", body: text })

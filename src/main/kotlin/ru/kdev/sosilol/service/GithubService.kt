@@ -2,6 +2,8 @@ package ru.kdev.sosilol.service
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
+import gg.jte.TemplateEngine
+import gg.jte.output.StringOutput
 import org.json.JSONObject
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -10,22 +12,23 @@ import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import ru.kdev.sosilol.configuration.GithubConfiguration
-import ru.kdev.sosilol.data.Paste
-import te4j.Te4j
-import te4j.template.option.output.Output
+import ru.kdev.sosilol.entity.Profile
+import ru.kdev.sosilol.repository.ProfileRepository
 
 sealed interface GithubService {
 
     fun authorize(code: String, state: String): AccessTokenInfo?
     fun getProfile(token: String): GithubProfile
+    fun getRawProfile(token: String): GithubProfile
     fun renderProfilePage(profile: GithubProfile): String
 }
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class GithubProfile(
-    val id: Int,
+    val id: Long,
     val login: String,
-    val avatarUrl: String
+    val avatarUrl: String,
+    var pastes: List<ru.kdev.sosilol.entity.Paste> = listOf()
 )
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
@@ -36,17 +39,9 @@ data class AccessTokenInfo(
 )
 
 @Service
-class GithubServiceImpl(val configuration: GithubConfiguration) : GithubService {
+class GithubServiceImpl(val templateEngine: TemplateEngine, val configuration: GithubConfiguration, val profileRepository: ProfileRepository) : GithubService {
 
     private val restTemplate = RestTemplate()
-    private val template = Te4j.custom()
-        .minifyAll()
-        .useResources()
-        .output(Output.STRING)
-        .disableAutoReloading()
-        .build()
-        .load(GithubProfile::class.java)
-        .from("static/profile.html")
 
     override fun authorize(code: String, state: String): AccessTokenInfo? {
         val request = HttpEntity(
@@ -75,7 +70,7 @@ class GithubServiceImpl(val configuration: GithubConfiguration) : GithubService 
         }
     }
 
-    override fun getProfile(token: String): GithubProfile =
+    override fun getRawProfile(token: String): GithubProfile =
         restTemplate.exchange(
             "https://api.github.com/user",
             HttpMethod.GET,
@@ -86,5 +81,26 @@ class GithubServiceImpl(val configuration: GithubConfiguration) : GithubService 
             GithubProfile::class.java
         ).body!!
 
-    override fun renderProfilePage(profile: GithubProfile): String = template.renderAsString(profile)
+    override fun getProfile(token: String): GithubProfile {
+        val githubProfile = restTemplate.exchange(
+            "https://api.github.com/user",
+            HttpMethod.GET,
+            HttpEntity<Any>(HttpHeaders().apply {
+                setBearerAuth(token)
+                accept = listOf(MediaType.APPLICATION_JSON)
+            }),
+            GithubProfile::class.java
+        ).body!!
+        val profileEntity = profileRepository.findById(githubProfile.id).orElseGet {
+            val profile = Profile(githubProfile.id)
+            profileRepository.save(profile)
+            profile
+        }
+        githubProfile.pastes = profileEntity.pastes
+        return githubProfile
+    }
+
+    override fun renderProfilePage(profile: GithubProfile): String = StringOutput().apply {
+        templateEngine.render("profile.jte", profile, this)
+    }.toString()
 }
