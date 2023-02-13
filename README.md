@@ -1,6 +1,6 @@
 # sosi.lol
 
-Amazing paste service with beautiful name.
+Дивовижна паста з красивою назвою.
 
 Url: https://sosi.lol/
 
