@@ -4,7 +4,7 @@ Amazing paste service with beautiful name.
 
 Url: https://sosi.lol/
 
-![Screenshot](https://i.yapx.ru/VgAJG.png "Screenshot")
+![Screenshot](https://i.imgur.com/fpMcNLP.png "Screenshot")
 
 ## Needed enviroment variables
 
