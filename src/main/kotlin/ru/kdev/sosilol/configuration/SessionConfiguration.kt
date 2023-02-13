@@ -12,5 +12,5 @@ import org.springframework.session.web.context.AbstractHttpSessionApplicationIni
 class SessionConfiguration : AbstractHttpSessionApplicationInitializer() {
 
     @Bean
-    fun connectionFactory() = LettuceConnectionFactory(RedisStandaloneConfiguration(System.getenv("REDIS_HOST"), Integer.parseInt(System.getenv("REDIS_PORT"))))
+    fun connectionFactory(properties: RedisProperties) = LettuceConnectionFactory(RedisStandaloneConfiguration(properties.host, properties.port))
 }

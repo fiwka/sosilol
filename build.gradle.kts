@@ -49,6 +49,11 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+    testImplementation("com.h2database:h2:2.1.214")
+    testImplementation("it.ozimov:embedded-redis:0.7.3")
 }
 
 tasks.withType<JavaCompile> {
@@ -74,6 +79,18 @@ tasks.bootJar {
         })
         into("classes")
     }
+}
+
+configurations.all {
+    exclude(module = "logback-classic")
+    exclude(module = "spring-boot-starter-logging")
+    exclude(module = "log4j-to-slf4j")
+}
+
+tasks.test {
+    useJUnitPlatform()
+
+    maxHeapSize = "1G"
 }
 
 tasks.bootRun {

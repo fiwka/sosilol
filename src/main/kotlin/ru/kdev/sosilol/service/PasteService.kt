@@ -2,10 +2,6 @@ package ru.kdev.sosilol.service
 
 import gg.jte.TemplateEngine
 import gg.jte.output.StringOutput
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.springframework.security.crypto.codec.Hex
 import org.springframework.stereotype.Service
 import ru.kdev.sosilol.data.Paste
@@ -15,10 +11,8 @@ import ru.kdev.sosilol.repository.ProfileRepository
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.security.SecureRandom
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Future
 
-sealed interface PasteService {
+interface PasteService {
 
     /**
      * "If the file doesn't exist, create it, then write the text to it."
@@ -29,8 +23,7 @@ sealed interface PasteService {
      * @param text The text to save
      * @return The id of the file that was saved.
      */
-    suspend fun save(text: String, token: String? = null): Future<String>
-    suspend fun saveAsync(id: String, text: String, token: String? = null)
+    fun save(text: String, token: String? = null): String
 
     /**
      * It loads the template, replaces the placeholder with the code, and returns the result
@@ -39,9 +32,9 @@ sealed interface PasteService {
      * @return The template is being returned with the code-here section replaced with the contents of the file with the
      * given id.
      */
-    suspend fun load(id: String): String
+    fun load(id: String): String
 
-    suspend fun loadRaw(id: String): String
+    fun loadRaw(id: String): String
 
 }
 
@@ -63,38 +56,26 @@ class PasteServiceImpl(val templateEngine: TemplateEngine, val githubService: Gi
         return String(Hex.encode(bytes))
     }
 
-    override suspend fun saveAsync(id: String, text: String, token: String?) {
-        coroutineScope {
-            launch {
-                val paste = ru.kdev.sosilol.entity.Paste(id, text)
-
-                if (token != null) {
-                    val githubProfile = githubService.getRawProfile(token)
-                    val profileEntity = profileRepository.findById(githubProfile.id).orElse(Profile(githubProfile.id))
-
-                    profileEntity.pastes.add(paste)
-                    pasteRepository.save(paste)
-                    profileRepository.save(profileEntity)
-                } else {
-                    pasteRepository.save(paste)
-                }
-            }
-        }
-    }
-
-    override suspend fun save(text: String, token: String?): Future<String> {
+    override fun save(text: String, token: String?): String {
         val id = randomString()
 
-        withContext(Dispatchers.Default) {
-            launch {
-                saveAsync(id, text, token)
-            }
+        val paste = ru.kdev.sosilol.entity.Paste(id, text)
+
+        if (token != null) {
+            val githubProfile = githubService.getRawProfile(token)
+            val profileEntity = profileRepository.findById(githubProfile.id).orElse(Profile(githubProfile.id))
+
+            profileEntity.pastes.add(paste)
+            pasteRepository.save(paste)
+            profileRepository.save(profileEntity)
+        } else {
+            pasteRepository.save(paste)
         }
 
-        return CompletableFuture.completedFuture(id)
+        return id
     }
 
-    suspend fun getPaste(id: String): Paste {
+    fun getPaste(id: String): Paste {
         return if (pasteCache[id] != null) {
             pasteCache[id]!!
         } else {
@@ -106,14 +87,14 @@ class PasteServiceImpl(val templateEngine: TemplateEngine, val githubService: Gi
         }
     }
 
-    override suspend fun load(id: String): String {
+    override fun load(id: String): String {
         ensureCreatedSaveDir()
         return StringOutput().apply {
             templateEngine.render("template.jte", getPaste(id), this)
         }.toString()
     }
 
-    override suspend fun loadRaw(id: String): String {
+    override fun loadRaw(id: String): String {
         return getPaste(id).code
     }
 }

@@ -15,7 +15,7 @@ import ru.kdev.sosilol.configuration.GithubConfiguration
 import ru.kdev.sosilol.entity.Profile
 import ru.kdev.sosilol.repository.ProfileRepository
 
-sealed interface GithubService {
+interface GithubService {
 
     fun authorize(code: String, state: String): AccessTokenInfo?
     fun getProfile(token: String): GithubProfile
