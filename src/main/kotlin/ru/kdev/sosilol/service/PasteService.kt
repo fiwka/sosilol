@@ -21,6 +21,7 @@ interface PasteService {
      * class, and it's purpose is to make sure that the `saveDir` directory exists. If it doesn't exist, it creates it
      *
      * @param text The text to save
+     * @param token Token of GitHub user
      * @return The id of the file that was saved.
      */
     fun save(text: String, token: String? = null): String
