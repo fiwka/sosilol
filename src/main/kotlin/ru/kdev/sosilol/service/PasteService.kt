@@ -59,7 +59,6 @@ class PasteServiceImpl(val templateEngine: TemplateEngine, val githubService: Gi
 
     override fun save(text: String, token: String?): String {
         val id = randomString()
-
         val paste = ru.kdev.sosilol.entity.Paste(id, text)
 
         if (token != null) {

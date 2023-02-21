@@ -11,9 +11,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/common.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <title>Профиль</title>
 </head>
@@ -21,6 +23,7 @@
     <nav>
         <div class="nav-wrapper" style="background-color: #1e1e1e;">
             <a href="/" class="brand-logo" style="margin-left: 10px;">соси лол</a>
+            <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="/v1/api-docs-ui">API</a></li>
                 <li><a href="https://vk.com/fiwka">Автор</a></li>
@@ -28,6 +31,11 @@
             </ul>
         </div>
     </nav>
+    <ul class="sidenav" id="mobile">
+        <li><a href="/v1/api-docs-ui">API</a></li>
+        <li><a href="https://vk.com/fiwka">Автор</a></li>
+        <li><a href="/profile">Профиль</a></li>
+    </ul>
     <section class="default-section" id="profile">
         <header style="text-align: center; user-select: none;">
             <img src="${profile.getAvatarUrl()}" alt="Avatar" class="avatar">
@@ -46,5 +54,6 @@
             @endif
         </div>
     </section>
+    <script src="menu.js"></script>
 </body>
 </html>
