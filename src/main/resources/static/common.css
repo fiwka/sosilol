@@ -23,6 +23,7 @@ textarea {
     height: 100vh;
     white-space: pre;
     tab-size: 4;
+    overflow-x: scroll;
 }
 
 .default-section {
@@ -34,6 +35,10 @@ textarea {
     padding: 15px;
     font-size: 18px;
     overflow: scroll;
+}
+
+.code-view > div {
+    padding: 0;
 }
 
 .avatar {

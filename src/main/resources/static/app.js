@@ -49,6 +49,7 @@ async function save() {
     const httpResult = await fetch("/save", { method: "POST", body: text })
     const result = await httpResult.text();
     history.pushState(null, null, `/view/${result}`)
+    await navigator.clipboard.writeText(window.location.href)
 }
 
 document.querySelector('#save-btn').addEventListener('click', _ => save())
