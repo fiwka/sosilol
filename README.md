@@ -1,3 +1,5 @@
+# I do not recommend using!!!
+
 # sosi.lol
 
 Amazing paste service with beautiful name.
