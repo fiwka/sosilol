@@ -81,7 +81,7 @@ tasks.bootJar {
     }
 }
 
-configurations.all {
+configurations.testImplementation {
     exclude(module = "logback-classic")
     exclude(module = "spring-boot-starter-logging")
     exclude(module = "log4j-to-slf4j")
