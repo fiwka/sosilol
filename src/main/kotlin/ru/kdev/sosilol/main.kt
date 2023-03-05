@@ -10,8 +10,5 @@ import kotlin.system.exitProcess
 class SosiLolApplication
 
 fun main(args: Array<String>) {
-    if (System.getenv("CI") != null)
-        exitProcess(0)
-
     runApplication<SosiLolApplication>(*args)
 }
