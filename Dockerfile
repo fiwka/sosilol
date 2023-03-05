@@ -1,4 +1,4 @@
 FROM eclipse-temurin:19-jdk
-COPY build/libs/sosilol-*.jar /app/sosilol.jar
-COPY entrypoint.sh /app/entrypoint.sh
+COPY build/libs/sosilol-0.0.1-SNAPSHOT.jar /app/
+COPY entrypoint.sh /app/
 ENTRYPOINT ["/app/entrypoint.sh"]
