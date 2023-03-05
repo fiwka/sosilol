@@ -29,11 +29,6 @@ jobs:
         with:
           name: Package
           path: build/libs
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v3
       - name: Log in to private registry
         uses: docker/login-action@v2
         with:
