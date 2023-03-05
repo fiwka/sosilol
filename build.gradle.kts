@@ -47,7 +47,7 @@ dependencies {
     implementation("org.reactivestreams:reactive-streams:1.0.4")
     implementation("gg.jte:jte:2.2.4")
     implementation("org.json:json:20220320")
-    implementation("io.lettuce:lettuce-core:6.2.2.RELEASE")
+    implementation("io.lettuce:lettuce-core:6.2.3.RELEASE")
     implementation("org.postgresql:postgresql:42.5.3")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
