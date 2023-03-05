@@ -34,8 +34,6 @@ jobs:
         with:
           name: Package
           path: build/libs
-      - name: Fix some errors
-        run: sudo rm -rf /var/lib/docker
       - name: Docker login
         run: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" $DOCKER_REGISTRY
       - name: Build the Docker image
