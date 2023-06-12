@@ -1,4 +1,4 @@
-FROM eclipse-temurin:19-jdk
+FROM eclipse-temurin:19-jdk-alpine
 WORKDIR /app
-COPY build/libs/sosilol-0.0.1-SNAPSHOT.jar ./
-CMD bash -c "cd /app && java -jar sosilol-0.0.1-SNAPSHOT.jar"
+COPY build/libs/sosilol-0.0.1-SNAPSHOT.jar .
+ENTRYPOINT ["java", "-jar", "sosilol-0.0.1-SNAPSHOT.jar"]
