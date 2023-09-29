@@ -79,10 +79,12 @@ class PasteServiceImpl(val templateEngine: TemplateEngine, val githubService: Gi
         return if (pasteCache[id] != null) {
             pasteCache[id]!!
         } else {
-            if (id.length != 12) { // new ids
+            val path = saveDir.resolve(id)
+
+            if (!Files.exists(path)) { // new ids
                 Paste(pasteRepository.findById(id).get().code).apply { pasteCache[id] = this }
             } else { // old ids
-                Paste(Files.readAllLines(saveDir.resolve(id)).joinToString("\n")).apply { pasteCache[id] = this }
+                Paste(Files.readAllLines(path).joinToString("\n")).apply { pasteCache[id] = this }
             }
         }
     }
